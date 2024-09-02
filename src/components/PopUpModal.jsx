@@ -9,8 +9,8 @@ const PopUpModal = ({ isOpen, onClose, currentItem, fetchData }) => {
     try {
         await deleteStudent(currentItem?._id);
         toast.success('Student deleted successfully');
-        onClose();
         fetchData();
+        onClose();
     } catch (error) {
         console.error('Error handling form submission:', error);
         toast.error('An error occurred while processing your request.');

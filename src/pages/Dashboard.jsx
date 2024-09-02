@@ -19,6 +19,7 @@ function Dashboard() {
         setCurrentItem(item);
         setIsModalOpen(true);
     };
+
     const openModalPopUp = (item = null) => {
         setCurrentItem(item);
         setIsOpenPopUp(true);
@@ -28,6 +29,7 @@ function Dashboard() {
         setCurrentItem(null);
         setIsModalOpen(false);
     };
+
     const closeModalPopUp = () => {
         setCurrentItem(null);
         setIsOpenPopUp(false);
@@ -36,6 +38,7 @@ function Dashboard() {
     const fetchData = async () => {
         try {
             const response = await getStudentInfo();
+            console.log('Fetched data:', response?.data?.data);
             const dataWithIds = response?.data?.data.map(item => ({
                 id: item._id,
                 ...item
@@ -51,13 +54,13 @@ function Dashboard() {
     }, []);
 
     const columns = [
-        { field: 'name', headerName: 'Name', width: 150 },
-        { field: 'subject', headerName: 'Subject', width: 150 },
-        { field: 'mark', headerName: 'Mark', width: 150 },
+        { field: 'name', headerName: 'Name', width: 250 },
+        { field: 'subject', headerName: 'Subject', width: 250 },
+        { field: 'mark', headerName: 'Mark', width: 250 },
         {
             field: 'actions',
             headerName: 'Action',
-            width: 150,
+            width: 250,
             renderCell: (params) => (
                 <div className="flex justify-start mt-2">
                     <button
@@ -91,46 +94,8 @@ function Dashboard() {
                     </button>
                 </div>
                 <div className="w-full max-w-screen-xl overflow-x-auto">
-                    {/* <table className="w-full bg-white border border-gray-200 mt-2">
-                        <thead>
-                            <tr>
-                                {headers.map((header, index) => (
-                                    <th
-                                        key={index}
-                                        className="py-3 px-4 border-b border-r border-gray-200 bg-white text-left text-sm font-semibold text-gray-500 tracking-wider"
-                                    >
-                                        {header}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data?.map((item, index) => (
-                                <tr key={index}>
-                                    <td className="py-2 px-4 border-b border-gray-200 flex items-center">
-                                        <div className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full text-sm font-semibold mr-2">
-                                            {item.name.charAt(0)}
-                                        </div>
-                                        {item.name}
-                                    </td>
-                                    <td className="py-2 px-4 border-b border-gray-200">{item?.subject}</td>
-                                    <td className="py-2 px-4 border-b border-gray-200">{item?.mark}</td>
-                                    <td className="py-2 px-4 border-b border-gray-200 text-center flex flex-row">
-                                        <button
-                                            onClick={() => openModal(item)}
-                                            className="border-2 border-green-500 rounded-md w-8 h-8 flex justify-center items-center bg-white"
-                                        >
-                                            <MdEdit className="text-sm text-green-500" />
-                                        </button>
-                                        <button onClick={() => openModalPopUp(item)} className="border-2 border-red-500 rounded-md w-8 h-8 flex justify-center items-center bg-white ml-2">
-                                            <MdDelete className="text-sm text-red-500" />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table> */}
                     <DataGrid
+                        key={data.length}
                         rows={data}
                         columns={columns}
                         getRowId={(row) => row._id}
@@ -138,7 +103,13 @@ function Dashboard() {
                 </div>
             </div>
             <Modal isOpen={isModalOpen} onClose={closeModal} currentItem={currentItem} fetchData={fetchData} />
-            <PopUpModal isOpen={isOpenPopUp} onClose={closeModalPopUp} currentItem={currentItem} fetchData={fetchData} />
+            <PopUpModal
+                isOpen={isOpenPopUp}
+                onClose={closeModalPopUp}
+                currentItem={currentItem}
+                fetchData={fetchData}
+                // handleDelete={handleDelete}
+            />
         </div>
     );
 }

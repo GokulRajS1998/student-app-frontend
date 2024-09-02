@@ -44,15 +44,21 @@ const Modal = ({ isOpen, onClose, currentItem, fetchData }) => {
         toast.success('Student updated successfully');
         onClose()
         fetchData()
+        setName('');
+        setSelectedSubject('');
+        setMark('');
       } else {
         await addStudent(data);
         toast.success('Student added successfully');
         onClose()
         fetchData()
+        setName('');
+        setSelectedSubject('');
+        setMark('');
       }
     } catch (error) {
       console.error('Error handling form submission:', error);
-      toast.error('An error occurred while processing your request.');
+      toast.error(error?.response?.data?.message);
     }
   };
 
